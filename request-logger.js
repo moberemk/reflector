@@ -2,7 +2,7 @@ var fs = require('fs');
 
 function LogRequest(req) {
 	var formatted = {
-        route: req.route,
+        route: req.route.path,
         params: req.params,
         headers: req.headers,
         body: req.body,

@@ -18,6 +18,9 @@
   "homepage": "https://github.com/moberemk/reflector",
   "dependencies": {
     "body-parser": "^1.9.0",
-    "express": "^4.9.5"
+    "express": "^4.9.5",
+    "mongodb": "^1.4.0",
+    "mongoose": "^3.8.16",
+    "socket.io": "^1.1.0"
   }
 }
