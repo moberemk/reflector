@@ -1,0 +1,23 @@
+{
+  "name": "reflector",
+  "version": "0.0.1",
+  "description": "A simple endpoint which reflects all requests made at it",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moberemk/reflector.git"
+  },
+  "author": "moberemk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moberemk/reflector/issues"
+  },
+  "homepage": "https://github.com/moberemk/reflector",
+  "dependencies": {
+    "body-parser": "^1.9.0",
+    "express": "^4.9.5"
+  }
+}
