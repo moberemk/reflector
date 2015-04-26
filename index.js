@@ -1,15 +1,18 @@
 var express = require('express'),
     router = express.Router(),
     app = express(),
+    server = require('http').Server(app),
+    io = require('socket.io')(server).
+    BodyParser = require('body-parser'),
+    // Database stuff
     MongoClient = require('mongodb').MongoClient,
     ObjectID = require('mongodb').ObjectID
-    bodyParser = require('body-parser'),
     logger = require('./request-logger'),
-    connection_string = undefined, // Fill in your MongoDB connection string here
-    db;
+    SocketLogger = require('./socket-logger'),
+    connection_string = undefined; // Fill in your MongoDB connection string here
 
-app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded()); // to support URL-encoded bodies
+app.use(BodyParser.json());       // to support JSON-encoded bodies
+app.use(BodyParser.urlencoded()); // to support URL-encoded bodies
 
 app.all('/', function (req, res) {
     var formatted = {
@@ -21,16 +24,23 @@ app.all('/', function (req, res) {
     logger(req);
 
     // Save the request to the database
-    db.collection('requests').insert([formatted]);
-
+    // db.collection('requests').insert([formatted]);
+    logger(formatted);
     res.json(formatted);
 });
 
-MongoClient.connect(connection_string, { native_parser:true }, function(err, result) {
-    if(err) throw err;
+app.listen(3000, function() {
+    console.log('Listening on port %d', this.address().port);
+});
 
-    db = result;
-    var server = app.listen(3000, function() {
-        console.log('Listening on port %d', server.address().port);
+io.on('connection', function(socket) {
+    console.log('Socket connection started');
+
+    var socket_logger = new SocketLogger();
+
+    socket.on('message', function(message) {
+        socket_logger.message(message);
+        socket.emit(message);
     });
+    socket.on('disconnect', socket_logger.close);
 });
